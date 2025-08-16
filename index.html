@@ -1,67 +1,348 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAP Garland, LLC</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Consult by KD LLC</title>
+  <meta name="description" content="Consult by KD LLC — Business & Management Consulting" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
-      color: #333;
+    :root{
+      --bg:#0b0b12;
+      --card:#0f1020;
+      --muted:#b7c0d6;
+      --purple:#7c3aed; /* purple-600 */
+      --teal:#14b8a6;   /* teal-500 */
+      --gold:#f59e0b;   /* amber-500 */
+      --edge: rgba(255,255,255,.08);
+      --radius: 18px;
     }
-    header {
-      background-color: #003366;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:#e8ecf4; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+      background: radial-gradient(1200px 1200px at 80% -20%, rgba(124,58,237,.22), transparent 60%),
+                  radial-gradient(1000px 1000px at -10% 20%, rgba(20,184,166,.18), transparent 65%),
+                  linear-gradient(180deg, #0b0b12 0%, #090914 100%);
+      overflow-x:hidden;
     }
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
+    /* ===== Animated gradient canvas (subtle) ===== */
+    .gradient-bg{
+      position:fixed; inset:-50vmax; z-index:-2;
+      background: conic-gradient(from 0deg at 50% 50%, rgba(124,58,237,.12), rgba(20,184,166,.12), rgba(245,158,11,.12), rgba(124,58,237,.12));
+      filter: blur(80px) saturate(120%);
+      animation: spin 26s linear infinite;
     }
-    h1, h2 {
-      color: #003366;
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ===== Layout ===== */
+    .container{max-width:1200px; margin-inline:auto; padding: clamp(16px, 3vw, 24px)}
+    header{position:sticky; top:0; backdrop-filter:saturate(140%) blur(8px); z-index:30; border-bottom:1px solid var(--edge); background:rgba(9,9,20,.45)}
+    nav{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px}
+    .badge{font-size:12px; padding:.25rem .5rem; border-radius:999px; background: linear-gradient(90deg, var(--purple), var(--teal)); box-shadow:0 0 0 1px rgba(255,255,255,.06) inset}
+
+    .btn{--e:0%; display:inline-block; padding:.9rem 1.15rem; border-radius:14px; font-weight:700; letter-spacing:.2px; text-decoration:none; color:#0b0b12; background:
+      linear-gradient(120deg, hsl(266 84% 60%), hsl(172 66% 48%), hsl(42 95% 52%)) 0/200% 100%;
+      background-position: var(--e) 0; box-shadow:0 10px 24px rgba(124,58,237,.28), 0 0 0 1px rgba(255,255,255,.06) inset; transition:.35s ease;
     }
-    .contact {
-      background: #fff;
-      padding: 20px;
-      border-left: 5px solid #003366;
-      margin-top: 30px;
+    .btn:hover{--e:100%; transform:translateY(-2px); box-shadow:0 16px 36px rgba(20,184,166,.35), 0 0 0 1px rgba(255,255,255,.1) inset}
+    .btn.ghost{color:#e8ecf4; background:transparent; border:1px solid var(--edge); box-shadow:none}
+    .btn.ghost:hover{background:rgba(124,58,237,.08); border-color:rgba(124,58,237,.35)}
+
+    /* ===== Hero ===== */
+    .hero{position:relative; padding: clamp(72px, 12vh, 140px) 0 80px; overflow:clip}
+    .floating-shapes{position:absolute; inset:0; pointer-events:none; z-index:-1}
+    .shape{position:absolute; width:220px; height:220px; border-radius:40% 60% 55% 45%/60% 40% 60% 40%; filter: blur(20px); opacity:.28}
+    .shape.s1{background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 60%); left:-80px; top:-60px; animation: drift1 22s ease-in-out infinite}
+    .shape.s2{background: radial-gradient(circle at 70% 70%, #14b8a6, transparent 60%); right:-80px; top:20%; animation: drift2 26s ease-in-out infinite}
+    .shape.s3{background: radial-gradient(circle at 45% 55%, #f59e0b, transparent 60%); left:10%; bottom:-80px; animation: drift3 28s ease-in-out infinite}
+    @keyframes drift1{50%{transform:translate(50px,30px) rotate(8deg)} 100%{transform:translate(0,0)}}
+    @keyframes drift2{50%{transform:translate(-60px,-30px) rotate(-10deg)} 100%{transform:translate(0,0)}}
+    @keyframes drift3{50%{transform:translate(40px,-20px) rotate(6deg)} 100%{transform:translate(0,0)}}
+
+    .hero-grid{display:grid; grid-template-columns:1.2fr .8fr; gap: clamp(20px, 4vw, 32px); align-items:center}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--edge); border-radius: var(--radius); padding: clamp(20px, 3vw, 28px);
+      box-shadow: 0 40px 120px rgba(124,58,237,.18), 0 0 0 1px rgba(255,255,255,.04) inset;
+      transform: translateY(24px); opacity:0; animation: heroIn .9s ease .25s forwards;
     }
-    footer {
-      background-color: #003366;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 50px;
+    @keyframes heroIn{to{transform:none; opacity:1}}
+
+    .eyebrow{display:inline-flex; gap:8px; align-items:center; font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.2em}
+    .eyebrow .dot{width:8px; height:8px; border-radius:50%; background:linear-gradient(90deg, var(--purple), var(--teal))}
+
+    h1{margin:.35em 0 .3em; font-size: clamp(28px, 4vw, 48px); line-height:1.05}
+    p.lead{font-size: clamp(15px, 2.1vw, 18px); color:#cad2e2; max-width:64ch}
+    .cta{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap}
+
+    .hero-media{position:relative; min-height:320px; border-radius: var(--radius); overflow:hidden; isolation:isolate}
+    .hero-media img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(110%)}
+    .hero-media::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(12,10,24,.0), rgba(12,10,24,.45) 60%, rgba(12,10,24,.85));}
+
+    /* ===== Sections ===== */
+    section{padding: clamp(64px, 10vh, 96px) 0}
+    .section-title{font-size: clamp(22px, 2.6vw, 34px); margin:0 0 14px}
+    .section-sub{color:var(--muted); margin:0 0 28px}
+
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
+    .feature{
+      position:relative; padding:22px; border-radius:16px; border:1px solid var(--edge);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .feature h3{margin:6px 0 6px}
+    .chip{display:inline-block; font-size:12px; color:#0b0b12; padding:.25rem .5rem; border-radius:999px; background:linear-gradient(90deg, var(--teal), var(--gold));}
+
+    .service-grid{display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:center}
+    .service-media{position:relative; border-radius:16px; overflow:hidden}
+    .service-media img{width:100%; height:100%; object-fit:cover}
+
+    /* Parallax wrappers */
+    .parallax{position:relative; overflow:hidden; border-radius:16px}
+    .parallax img{display:block; width:100%; height:auto; transform:translateY(0); will-change:transform}
+
+    /* Gallery */
+    .gallery{display:grid; grid-template-columns:2fr 1fr; gap:22px}
+    .gallery > div{display:grid; gap:22px}
+    .gallery .tile{border-radius:16px; overflow:hidden; border:1px solid var(--edge)}
+    .gallery img{width:100%; height:100%; object-fit:cover; display:block}
+
+    /* Contact + Map */
+    .contact-card{display:grid; grid-template-columns:1.1fr .9fr; gap:22px}
+    .info-box{border:1px solid var(--edge); border-radius:16px; padding:20px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))}
+    .info-row{display:flex; gap:10px; align-items:center; margin:10px 0}
+    .info-row b{min-width:96px; color:#dbe2f2}
+    iframe.map{width:100%; min-height:340px; border:0; border-radius:16px; filter:saturate(105%) contrast(102%)}
+
+    /* ===== Scroll Animations ===== */
+    .animate{opacity:0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease}
+    .in-view{opacity:1; transform:none}
+    .anim-fade{transform:none; opacity:.001}
+    .anim-slide{transform: translateY(22px)}
+    .anim-zoom{transform: scale(.94)}
+
+    /* ===== Footer ===== */
+    footer{border-top:1px solid var(--edge); background:rgba(9,9,20,.6)}
+    .socials{display:flex; gap:12px}
+    .icon{
+      --d: calc(var(--i) * 0.12s);
+      width:40px; height:40px; display:grid; place-items:center; border-radius:12px; background:#121327; border:1px solid var(--edge);
+      animation: float 4.5s ease-in-out infinite; animation-delay: var(--d);
+      transition:.3s ease; cursor:pointer
+    }
+    .icon:hover{transform: translateY(-4px) scale(1.05) rotate(-2deg); filter:hue-rotate(30deg); box-shadow:0 10px 24px rgba(124,58,237,.35)}
+    @keyframes float{50%{transform: translateY(-6px)} 100%{transform:none}}
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1000px){
+      .hero-grid,.service-grid,.contact-card{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .gallery{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
+  <div class="gradient-bg"></div>
+
+  <!-- Header -->
   <header>
-    <h1>CAP Garland, LLC</h1>
-    <p>Private Investment Fund</p>
+    <div class="container">
+      <nav>
+        <div class="brand">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12C21 16.97 16.97 21 12 21" stroke="url(#g)" stroke-width="2" stroke-linecap="round"/><path d="M12 7v5l3 3" stroke="#e8ecf4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="3" y1="3" x2="21" y2="21"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#14b8a6"/></linearGradient></defs></svg>
+          <span>Consult by KD LLC</span>
+          <span class="badge">Strategy · Delivery</span>
+        </div>
+        <div style="display:flex; gap:10px">
+          <a class="btn ghost" href="#services">Services</a>
+          <a class="btn" href="#contact">Book Consultation</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <section>
-    <h2>About Us</h2>
-    <p>CAP Garland, LLC is a Washington-based private investment fund focused on delivering value through diversified investment strategies.</p>
-
-    <h2>Contact</h2>
-    <div class="contact">
-      <p><strong>Address:</strong> 915 W 2nd Ave, Spokane, WA 99201</p>
-      <p><strong>Email:</strong> <a href="mailto:ryanberg@capgarland.shop">ryanberg@capgarland.shop</a></p>
-      <p><strong>Phone:</strong> (509) 822-3850</p>
+  <!-- Hero -->
+  <section class="hero container">
+    <div class="floating-shapes" aria-hidden="true">
+      <div class="shape s1"></div>
+      <div class="shape s2"></div>
+      <div class="shape s3"></div>
+    </div>
+    <div class="hero-grid">
+      <div class="card">
+        <div class="eyebrow"><span class="dot"></span> Elevate Your Operations</div>
+        <h1>Business & Management Consulting<br><span style="background:linear-gradient(90deg,var(--purple),var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent">Built for Outcomes</span></h1>
+        <p class="lead">We help founders and teams design resilient strategies, streamline delivery, and transform data into decisions. Modern, measurable, and aligned with your goals.</p>
+        <div class="cta">
+          <a class="btn" href="#contact">Start a Project</a>
+          <a class="btn ghost" href="#about">How we work</a>
+        </div>
+        <div style="display:flex; gap:14px; margin-top:18px; color:#cad2e2">
+          <span>📞 +1 608 905 7410</span>
+          <span>•</span>
+          <span>✉️ contact@conskd.shop</span>
+        </div>
+      </div>
+      <div class="hero-media parallax" data-parallax data-speed="0.15" aria-label="Consulting image">
+        <img src="https://royallionsolutions.com/wp-content/uploads/2019/03/business-management-consulting-services.jpg" alt="Business consulting teamwork" loading="lazy"/>
+      </div>
     </div>
   </section>
 
+  <!-- About / Value Props -->
+  <section id="about" class="container">
+    <h2 class="section-title animate anim-slide">We turn complexity into clarity</h2>
+    <p class="section-sub animate anim-fade">Narrative, metrics, and momentum—delivered through a collaborative model tailored to your stage.</p>
+    <div class="grid-3">
+      <div class="feature animate anim-zoom">
+        <span class="chip">Strategy</span>
+        <h3>Roadmaps that ship</h3>
+        <p>From vision to measurable milestones. Prioritize ruthlessly and align cross‑functional teams around outcomes.</p>
+      </div>
+      <div class="feature animate anim-zoom">
+        <span class="chip" style="background:linear-gradient(90deg, var(--purple), var(--teal))">Delivery</span>
+        <h3>Operational excellence</h3>
+        <p>Lean rituals, smart dashboards, and process guardrails that scale with you—without slowing you down.</p>
+      </div>
+      <div class="feature animate anim-zoom">
+        <span class="chip" style="background:linear-gradient(90deg, var(--gold), var(--purple))">Insights</span>
+        <h3>Decisions from data</h3>
+        <p>Right‑sized analytics, KPI design, and review cadences that keep your org learning every week.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services (with parallax image) -->
+  <section id="services" class="container">
+    <div class="service-grid">
+      <div>
+        <h2 class="section-title animate anim-slide">Consulting Services</h2>
+        <p class="section-sub animate anim-fade">Choose an engagement model that fits—accelerators, retained advisory, or sprint‑based delivery.</p>
+        <div class="grid-3">
+          <div class="feature animate anim-zoom"><h3>Go‑to‑Market</h3><p>ICP, messaging, offer design, and launch playbooks grounded in research.</p></div>
+          <div class="feature animate anim-zoom"><h3>Ops & PMO</h3><p>Program frameworks, cadence design, and risk/issue governance across streams.</p></div>
+          <div class="feature animate anim-zoom"><h3>Data & KPIs</h3><p>North‑star and input metrics, instrumentation plans, and review cycles.</p></div>
+        </div>
+        <div class="cta" style="margin-top:18px">
+          <a class="btn" href="#contact">Get a proposal</a>
+          <a class="btn ghost" href="#gallery">See our vibe</a>
+        </div>
+      </div>
+      <div class="parallax" data-parallax data-speed="0.22">
+        <img src="https://t3.ftcdn.net/jpg/03/66/54/12/360_F_366541291_RSi2errucp00Y8c7gfyEYNJTooaqVFmn.jpg" alt="Team planning board" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery (Parallax tile on the right) -->
+  <section id="gallery" class="container">
+    <h2 class="section-title animate anim-slide">Gallery</h2>
+    <p class="section-sub animate anim-fade">A snapshot of the energy and craft we bring to every engagement.</p>
+    <div class="gallery">
+      <div>
+        <div class="tile parallax" data-parallax data-speed="0.12">
+          <img src="https://avatars.mds.yandex.net/get-altay/9830718/2a0000019131065a239c7920e59d2b580ca4/XXXL" alt="Modern workspace" loading="lazy" />
+        </div>
+        <div class="tile">
+          <img src="https://royallionsolutions.com/wp-content/uploads/2019/03/business-management-consulting-services.jpg" alt="Workshop session" loading="lazy" />
+        </div>
+      </div>
+      <div class="tile parallax" data-parallax data-speed="0.18">
+        <img src="https://t3.ftcdn.net/jpg/03/66/54/12/360_F_366541291_RSi2errucp00Y8c7gfyEYNJTooaqVFmn.jpg" alt="Strategy board closeup" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Map -->
+  <section id="contact" class="container">
+    <h2 class="section-title animate anim-slide">Contact</h2>
+    <p class="section-sub animate anim-fade">Let’s design the next chapter together. Reach out and we’ll tailor an approach to your goals.</p>
+    <div class="contact-card">
+      <div class="info-box animate anim-slide">
+        <div class="info-row"><b>Company</b> <span>Consult by KD LLC</span></div>
+        <div class="info-row"><b>Phone</b> <a class="btn ghost" href="tel:+16089057410">+1 608 905 7410</a></div>
+        <div class="info-row"><b>Email</b> <a class="btn ghost" href="mailto:contact@conskd.shop">contact@conskd.shop</a></div>
+        <div class="info-row"><b>Address</b> <span>Butler Ave, Unit 4A, Los Angeles, CA 90025</span></div>
+        <form onsubmit="event.preventDefault(); alert('Thanks! We\'ll get back to you shortly.');" style="margin-top:14px; display:grid; gap:10px">
+          <input required placeholder="Your name" style="padding:12px 14px; border-radius:12px; border:1px solid var(--edge); background:#0c0e1f; color:#e8ecf4" />
+          <input required type="email" placeholder="Email address" style="padding:12px 14px; border-radius:12px; border:1px solid var(--edge); background:#0c0e1f; color:#e8ecf4" />
+          <textarea rows="4" placeholder="Tell us about your goals…" style="padding:12px 14px; border-radius:12px; border:1px solid var(--edge); background:#0c0e1f; color:#e8ecf4; resize:vertical"></textarea>
+          <button class="btn" type="submit">Send message</button>
+        </form>
+      </div>
+      <div class="animate anim-zoom">
+        <iframe class="map" loading="lazy" allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Butler%20Ave%20Unit%204A%2C%20Los%20Angeles%2C%20CA%2090025&output=embed">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    &copy; 2025 CAP Garland, LLC. All rights reserved.
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:14px; padding:18px 0">
+      <div style="display:flex; flex-direction:column; gap:4px">
+        <strong>Consult by KD LLC</strong>
+        <small style="color:#9aa7bf">© <span id="y"></span> All rights reserved.</small>
+      </div>
+      <div class="socials">
+        <a class="icon" style="--i:1" href="#" aria-label="LinkedIn" title="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6 1.12 6 0 4.88 0 3.5 0 2.12 1.12 1 2.5 1 3.86 1 4.98 2.12 4.98 3.5zM.5 8.5H4.5V23.5H.5zM8.5 8.5H12.3V10.3H12.36C12.88 9.3 14.18 8.24 16.13 8.24 20.19 8.24 21 10.9 21 14.55V23.5H17V15.66C17 13.77 16.96 11.34 14.5 11.34 12 11.34 11.64 13.43 11.64 15.52V23.5H7.64z"/></svg>
+        </a>
+        <a class="icon" style="--i:2" href="#" aria-label="X" title="X">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2H21.5l-7.5 8.57L22.5 22h-6.09l-4.77-5.71L6 22H2.74l7.98-9.12L2 2h6.18l4.33 5.29L18.24 2zM17.09 20h1.69L7.02 4H5.24l11.85 16z"/></svg>
+        </a>
+        <a class="icon" style="--i:3" href="#" aria-label="Instagram" title="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.96.24 2.4.4.6.23 1.03.5 1.48.95.45.45.72.88.95 1.48.16.44.35 1.23.4 2.4.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.96-.4 2.4-.23.6-.5 1.03-.95 1.48-.45.45-.88.72-1.48.95-.44.16-1.23.35-2.4.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.96-.24-2.4-.4-.6-.23-1.03-.5-1.48-.95-.45-.45-.72-.88-.95-1.48-.16-.44-.35-1.23-.4-2.4C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.24-1.96.4-2.4.23-.6.5-1.03.95-1.48.45-.45.88-.72 1.48-.95.44-.16 1.23-.35 2.4-.4C8.42 2.21 8.8 2.2 12 2.2zm0 1.8c-3.15 0-3.52.01-4.76.07-.98.05-1.51.21-1.87.35-.47.18-.8.39-1.15.74-.35.35-.56.68-.74 1.15-.14.36-.3.89-.35 1.87-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.05.98.21 1.51.35 1.87.18.47.39.8.74 1.15.35.35.68.56 1.15.74.36.14.89.3 1.87.35 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.98-.05 1.51-.21 1.87-.35.47-.18.8-.39 1.15-.74.35-.35.56-.68.74-1.15.14-.36.3-.89.35-1.87.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.05-.98-.21-1.51-.35-1.87-.18-.47-.39-.8-.74-1.15-.35-.35-.68-.56-1.15-.74-.36-.14-.89-.3-1.87-.35-1.24-.06-1.61-.07-4.76-.07zm0 3.2a6.8 6.8 0 1 1 0 13.6 6.8 6.8 0 0 1 0-13.6zm0 1.8a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm5.2-2.7a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+        </a>
+        <a class="icon" style="--i:4" href="#" aria-label="Facebook" title="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.34 2 1.86 6.48 1.86 12.07c0 4.99 3.66 9.13 8.44 9.93v-7.02H7.9v-2.9h2.4v-2.22c0-2.37 1.41-3.68 3.57-3.68 1.03 0 2.11.18 2.11.18v2.33h-1.19c-1.17 0-1.54.73-1.54 1.48v1.92h2.63l-.42 2.9h-2.21V22c4.78-.8 8.44-4.94 8.44-9.93z"/></svg>
+        </a>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in-view'); }
+      })
+    }, {threshold:.18});
+    document.querySelectorAll('.animate').forEach(el=>observer.observe(el));
+
+    // Parallax effect (lightweight, rAF-ticked)
+    const px = Array.from(document.querySelectorAll('[data-parallax]')).map(el=>({
+      el, speed: Number(el.dataset.speed) || 0.15
+    }));
+    let ticking=false;
+    function onScroll(){
+      if(!ticking){
+        window.requestAnimationFrame(()=>{
+          const vh = window.innerHeight;
+          px.forEach(({el,speed})=>{
+            const img = el.querySelector('img');
+            const rect = el.getBoundingClientRect();
+            const visible = Math.max(0, Math.min(vh, vh - Math.abs(rect.top + rect.height/2 - vh/2)));
+            const pct = (rect.top - vh) / (vh + rect.height);
+            const translate = pct * speed * 180; // tune depth
+            if(img){ img.style.transform = `translateY(${translate}px)`; img.style.transition = 'transform .15s ease-out'; }
+          });
+          ticking=false;
+        });
+        ticking=true;
+      }
+    }
+    document.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('load', onScroll);
+  </script>
 </body>
 </html>
